@@ -41,6 +41,21 @@ body{
     width:4rem;
 }
 
+
+/* animation- tools cont*/
+.scale-tools{
+    animation-name: scale-tools;
+    animation-duration: 1s;
+}
+@keyframes scale-tools {
+    0%{
+        transform: scale(0.1);
+    }
+    100%{
+        transform: scale(1);
+    }
+}
+
 /* pencil */
 .pencil-tool-cont{
     height:5rem;
@@ -51,6 +66,7 @@ body{
     background-color:#dee2e6 ;
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
     border-radius: 5px;
+    display: none;
 }
 
 .pencil-width-cont{
@@ -96,7 +112,7 @@ body{
     position: absolute;
     top:7rem;
     left:31.5vw;
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
     border-radius: 5px;
