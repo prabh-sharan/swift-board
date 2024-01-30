@@ -39,6 +39,7 @@ body{
     /* border: 2px solid red; */
     display: block;
     width:4rem;
+    cursor: pointer;
 }
 
 
@@ -122,4 +123,47 @@ body{
 
 .eraser-tool-cont input{
     width:80%;
+}
+
+/* sticky-note */
+.sticky-cont{
+    height: 15rem;
+    width:15rem;
+    position: absolute;
+    top:15rem;
+    left:10rem;
+}
+
+.header-cont{
+    height:2rem;
+    background-color:#dee2e6;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+
+.header-cont > * {
+    height: 1.2rem;
+    width: 1.2rem;
+    margin-right: 0.5rem;
+    border-radius: 50%;
+}
+.minimize{
+    background-color: #27ae60;
+}
+.remove{
+    background-color: #e74c3c;
+}
+.note-cont{
+    height:calc(100% - 2rem);
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+textarea{
+    height: 100%;
+    width:100%;
+    outline:none;
+    resize: none;
+    border: none;
 }
