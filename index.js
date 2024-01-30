@@ -54,21 +54,19 @@ eraser.addEventListener("click", (e) => {
 })
 
 
-upload.addEventListener("click", (e)=>{
+upload.addEventListener("click", (e) => {
     // open file explorer
     let input = document.createElement("input");
     input.setAttribute("type", "file");
     input.click(); /*when upload is clicked file is opened */
 
-    input.addEventListener("change", (e)=>{
+    input.addEventListener("change", (e) => {
         let file = input.files[0];
-        let url =   URL.createObjectURL(file);
+        let url = URL.createObjectURL(file);
         // console.log(file); console.log(url);
-        
-        let stickyCont = document.createElement("div");
-        stickyCont.setAttribute("class", "sticky-cont");
 
-        stickyCont.innerHTML = `
+
+        let stickyHtmlTemplate = `
             <div class="header-cont">
                 <div class="minimize"></div>
                 <div class="remove"></div>
@@ -76,20 +74,8 @@ upload.addEventListener("click", (e)=>{
             <div class="note-cont">
                 <img src="${url}" />
             </div>`;
-        document.body.appendChild(stickyCont);
-
-        let minimize = stickyCont.querySelector(".minimize");
-        let remove = stickyCont.querySelector(".remove");
-        noteActions(minimize, remove, stickyCont );
-
-        stickyCont.onmousedown = function (event) {
-                dragAndDrop(stickyCont, event)
-        };
-
-        stickyCont.ondragstart = function() {
-            return false;
-        };
-
+       
+        createSticky(stickyHtmlTemplate);
 
     })
 
@@ -97,80 +83,90 @@ upload.addEventListener("click", (e)=>{
 
 // sticky note
 sticky.addEventListener("click", (e) => {
-    let stickyCont = document.createElement("div");
-    stickyCont.setAttribute("class", "sticky-cont");
 
-    stickyCont.innerHTML = `
+        let stickyHtmlTemplate = `
             <div class="header-cont">
-               <div class="minimize"></div>
-               <div class="remove"></div>
+                <div class="minimize"></div>
+                <div class="remove"></div>
             </div>
             <div class="note-cont">
-               <textarea></textarea>
+                <textarea spellcheck="false"></textarea>
             </div>`;
-    document.body.appendChild(stickyCont);
-
-    let minimize = stickyCont.querySelector(".minimize");
-    let remove = stickyCont.querySelector(".remove");
-
-    noteActions(minimize, remove, stickyCont );
-
-    stickyCont.onmousedown = function (event) {
-            dragAndDrop(stickyCont, event)
-      };
-
-      stickyCont.ondragstart = function() {
-        return false;
-      };
+       
+        createSticky(stickyHtmlTemplate);
 
 })
 
+function createSticky(stickyHtmlTemplate) {
+
+        let stickyCont = document.createElement("div");
+        stickyCont.setAttribute("class", "sticky-cont");
+
+        stickyCont.innerHTML = stickyHtmlTemplate;
+        document.body.appendChild(stickyCont);
+
+        let minimize = stickyCont.querySelector(".minimize");
+        let remove = stickyCont.querySelector(".remove");
+
+        noteActions(minimize, remove, stickyCont);
+
+        // drag and drop
+        stickyCont.onmousedown = function (event) {
+            dragAndDrop(stickyCont, event)
+        };
+
+        stickyCont.ondragstart = function () {
+            return false;
+        };
+
+}
+
 
 // Note actions- remove and minimize
-function noteActions(minimize, remove, stickyCont){
+function noteActions(minimize, remove, stickyCont) {
 
-    remove.addEventListener("click", (e)=>{
+    remove.addEventListener("click", (e) => {
         stickyCont.remove();
     })
 
-    minimize.addEventListener("click", (e)=>{
+    minimize.addEventListener("click", (e) => {
         let noteCont = stickyCont.querySelector(".note-cont");
         let display = getComputedStyle(noteCont).getPropertyValue("display");
 
         // console.log(display);
-        if(display === "block") noteCont.style.display="none";
-        else noteCont.style.display="block";
+        if (display === "block") noteCont.style.display = "none";
+        else noteCont.style.display = "block";
     })
 
 }
 
 // Note drag and drop function
-function dragAndDrop(element, event){
+function dragAndDrop(element, event) {
     let shiftX = event.clientX - element.getBoundingClientRect().left;
     let shiftY = event.clientY - element.getBoundingClientRect().top;
-  
+
     element.style.position = 'absolute';
     element.style.zIndex = 1000;
-  
+
     moveAt(event.pageX, event.pageY);
-  
+
     // moves the note at (pageX, pageY) coordinates
     function moveAt(pageX, pageY) {
         element.style.left = pageX - shiftX + 'px';
         element.style.top = pageY - shiftY + 'px';
     }
-  
+
     function onMouseMove(event) {
-      moveAt(event.pageX, event.pageY);
+        moveAt(event.pageX, event.pageY);
     }
-  
+
     // move the note on mousemove
     document.addEventListener('mousemove', onMouseMove);
-  
+
     // drop the note
-    element.onmouseup = function() {
-      document.removeEventListener('mousemove', onMouseMove);
-      element.onmouseup = null;
+    element.onmouseup = function () {
+        document.removeEventListener('mousemove', onMouseMove);
+        element.onmouseup = null;
     };
 
 }
