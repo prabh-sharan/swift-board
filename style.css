@@ -79,6 +79,7 @@ body{
 
 .pencil-width-cont input{
     width:80%;
+    cursor: pointer;
 }
 
 /* pencil color container */
@@ -124,6 +125,7 @@ body{
 
 .eraser-tool-cont input{
     width:80%;
+    cursor: pointer;
 }
 
 /* sticky-note */

@@ -12,14 +12,14 @@ let penWidth = pencilWidthElem.value;
 let eraserWidth = eraserWidthElem.value;
 let eraserColor = "white";
 
-let tool = canvas.getContext("2d");
 
+let tool = canvas.getContext("2d");
 tool.strokeStyle = penColor; 
 tool.lineWidth = penWidth;
 
 //mousedown -> begin new path , mousemove-> fill stroke color 
 canvas.addEventListener("mousedown", (e)=> {
-    mouseDown = !mouseDown;
+    mouseDown = true;
     beginPath({
         x: e.clientX,
         y: e.clientY
@@ -30,13 +30,15 @@ canvas.addEventListener("mousedown", (e)=> {
 canvas.addEventListener("mousemove", (e)=> {
     if(mouseDown) drawStroke({
         x: e.clientX,
-        y: e.clientY
+        y: e.clientY,
+        color: eraserFlag ? eraserColor : penColor,
+        width: eraserFlag ? eraserWidth :penWidth
     })  
     
 })
 
 canvas.addEventListener("mouseup", (e)=>{
-     mouseDown =!mouseDown;
+     mouseDown = false;
 })
 
 function beginPath(strokeObj){
@@ -44,6 +46,8 @@ function beginPath(strokeObj){
     tool.moveTo(strokeObj.x,strokeObj.y); // start pt
 }
 function drawStroke(strokeObj){
+    tool.strokeStyle = strokeObj.color;
+    tool.lineWidth = strokeObj.width;
     tool.lineTo(strokeObj.x,strokeObj.y); //end pt
     tool.stroke();  //fill color   
 }
@@ -56,4 +60,26 @@ pencilColor.forEach((colorElem) =>{
         penColor = color;
         tool.strokeStyle = penColor;
     })
+})
+
+pencilWidthElem.addEventListener("input" , (e)=> {
+    // console.log(pencilWidthElem.value);
+    penWidth = pencilWidthElem.value;
+    tool.lineWidth = penWidth;
+})
+
+eraserWidthElem.addEventListener("input", (e)=> {
+        eraserWidth = eraserWidthElem.value;
+        tool.lineWidth = eraserWidth;
+})
+
+eraser.addEventListener("click" , (e)=> {
+    if(eraserFlag){
+        tool.strokeStyle = eraserColor;
+        tool.lineWidth = eraserWidth; 
+
+    }else{
+        tool.strokeStyle = penColor;
+        tool.lineWidth = penWidth; 
+    }
 })
