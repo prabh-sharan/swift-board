@@ -1,3 +1,4 @@
+
 let canvas = document.querySelector("canvas");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -25,20 +26,37 @@ tool.lineWidth = penWidth;
 //mousedown -> begin new path , mousemove-> fill stroke color 
 canvas.addEventListener("mousedown", (e)=> {
     mouseDown = true;
-    beginPath({
+    // beginPath({
+    //     x: e.clientX,
+    //     y: e.clientY
+    // })
+    let data = {
         x: e.clientX,
         y: e.clientY
-    })
+    }
+    //send data to server
+    socket.emit("beginPath", data);
     
 })
 
 canvas.addEventListener("mousemove", (e)=> {
-    if(mouseDown) drawStroke({
-        x: e.clientX,
-        y: e.clientY,
-        color: eraserFlag ? eraserColor : penColor,
-        width: eraserFlag ? eraserWidth :penWidth
-    })  
+    if(mouseDown){
+        let data ={
+            x: e.clientX,
+            y: e.clientY,
+            color: eraserFlag ? eraserColor : penColor,
+            width: eraserFlag ? eraserWidth :penWidth
+        }
+        //send data to server
+        socket.emit("drawStroke", data);
+    } 
+    
+    // drawStroke({
+    //     x: e.clientX,
+    //     y: e.clientY,
+    //     color: eraserFlag ? eraserColor : penColor,
+    //     width: eraserFlag ? eraserWidth :penWidth
+    // })  
     
 })
 
@@ -54,21 +72,21 @@ canvas.addEventListener("mouseup", (e)=>{
 undo.addEventListener("click", (e)=> {
     if(track > 0 ) track--;
     //track action
-    let trackObj ={
+    let data ={
         trackValue : track,
         undoRedoTracker
     }
-    undoRedoCanvas(trackObj);
+    socket.emit("redoUndo", data);
 })
 
 redo.addEventListener("click", (e)=> {
     if( track < undoRedoTracker.length - 1 ) track++;
    //track action 
-    let trackObj ={
+    let data ={
         trackValue : track,
         undoRedoTracker
     }
-    undoRedoCanvas(trackObj);
+    socket.emit("redoUndo", data);
 })
 
 function undoRedoCanvas(trackObj){
@@ -137,4 +155,18 @@ download.addEventListener("click", (e)=> {
         a.download = "swift-board.jpg";
         a.click();
         // console.log(a)
+})
+
+socket.on("beginPath", (data)=> {
+    // data - data from server
+    //calling beginPath func
+    beginPath(data);
+})
+
+socket.on("drawStroke", (data) => {
+    drawStroke(data);
+})
+
+socket.on("redoUndo", (data)=> {
+    undoRedoCanvas(data);
 })
