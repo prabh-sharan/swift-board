@@ -6,12 +6,17 @@ let mouseDown = false;
 let pencilColor = document.querySelectorAll(".pencil-color");
 let pencilWidthElem = document.querySelector(".pencil-width");
 let eraserWidthElem = document.querySelector(".eraser-width");
+let download = document.querySelector(".download");
+let redo = document.querySelector(".redo");
+let undo = document.querySelector(".undo");
 
 let penColor = "red";
 let penWidth = pencilWidthElem.value;
 let eraserWidth = eraserWidthElem.value;
 let eraserColor = "white";
 
+let undoRedoTracker = []; // data of all actions
+let track = 0; //represent which action performed
 
 let tool = canvas.getContext("2d");
 tool.strokeStyle = penColor; 
@@ -38,8 +43,48 @@ canvas.addEventListener("mousemove", (e)=> {
 })
 
 canvas.addEventListener("mouseup", (e)=>{
-     mouseDown = false;
+    mouseDown = false;
+    let url = canvas.toDataURL();
+    undoRedoTracker.push(url);
+    // console.log(undoRedoTracker);
+    track = undoRedoTracker.length - 1;  //  at last ele in array
+
 })
+
+undo.addEventListener("click", (e)=> {
+    if(track > 0 ) track--;
+    //track acation
+    let trackObj ={
+        trackValue : track,
+        undoRedoTracker
+    }
+    undoRedoCanvas(trackObj);
+})
+
+redo.addEventListener("click", (e)=> {
+    if( track < undoRedoTracker.length - 1 ) track++;
+    // console.log(track);
+   //track action 
+    let trackObj ={
+        trackValue : track,
+        undoRedoTracker
+    }
+    undoRedoCanvas(trackObj);
+})
+
+function undoRedoCanvas(trackObj){
+    track = trackObj.trackValue;
+    undoRedoTracker =  trackObj.undoRedoTracker;
+    
+    let url = undoRedoTracker[track];
+    let img = new Image(); // image() contructor- creates new image elem
+    img.src = url;
+    img.addEventListener("load", (e)=> {
+        tool.drawImage(img, 0, 0, canvas.width, canvas.height)
+    })
+
+}
+
 
 function beginPath(strokeObj){
     tool.beginPath(); //new path
@@ -68,6 +113,7 @@ pencilWidthElem.addEventListener("input" , (e)=> {
     tool.lineWidth = penWidth;
 })
 
+// eraser 
 eraserWidthElem.addEventListener("input", (e)=> {
         eraserWidth = eraserWidthElem.value;
         tool.lineWidth = eraserWidth;
@@ -82,4 +128,14 @@ eraser.addEventListener("click" , (e)=> {
         tool.strokeStyle = penColor;
         tool.lineWidth = penWidth; 
     }
+})
+
+// download canvas 
+download.addEventListener("click", (e)=> {
+        let url = canvas.toDataURL();  // get canvas url
+        let a = document.createElement("a");   
+        a.href = url;
+        a.download = "swift-board.jpg";
+        a.click();
+        // console.log(a)
 })
