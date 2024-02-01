@@ -1,5 +1,6 @@
 *{
     box-sizing: border-box;
+    overflow: hidden;
 }
 
 body{
@@ -32,11 +33,11 @@ body{
     position: absolute;
     top:2rem;
     left: 22vw;
-    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    border-radius: 10px;
 }
 
 .tools-cont > * {
-    /* border: 2px solid red; */
     display: block;
     width:4rem;
     cursor: pointer;
@@ -140,6 +141,7 @@ body{
     position: absolute;
     top:15rem;
     left:10rem;
+    overflow: visible;
 }
 
 .header-cont{
@@ -175,6 +177,10 @@ textarea{
     outline:none;
     resize: none;
     border: none;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.75px;
+    overflow: visible;
 }
 img{
     height:100%;

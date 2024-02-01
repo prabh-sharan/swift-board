@@ -51,7 +51,7 @@ eraser.addEventListener("click", (e) => {
     
     if (eraserFlag) {
         eraserToolCont.style.display = "flex";
-        eraser.style.border ="2px solid red";
+        eraser.style.border ="2px solid #343a40";
     }
     else {
         eraserToolCont.style.display = "none";
