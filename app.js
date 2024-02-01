@@ -1,13 +1,13 @@
 const express = require("express");
 const socket = require("socket.io");
-const cors = require('cors');
+// const cors = require('cors');
 
 const app = express();
 
 app.use(express.static("public"));
 const port = process.env.port || 5000;
 
-app.use(cors());
+// app.use(cors());
 
 // start listening for visitors on port 
 let server = app.listen(port, ()=>{
