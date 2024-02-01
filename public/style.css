@@ -186,3 +186,26 @@ img{
     height:100%;
     width:100%;
 }
+
+/* media queries */
+@media screen and ( max-width:950px ){
+    .tools-cont{
+        flex-direction: column;
+        align-items: center;
+        position:absolute;
+        top:8.5rem;
+        left:1.5rem;
+        height:60vh;
+        width:5rem;
+    }
+    .pencil-tool-cont{
+        position: absolute;
+        top:8.5rem;
+        left:11vw;
+    }    
+    .eraser-tool-cont{
+        position:absolute;
+        top:16rem;
+        left:11vw;
+    }
+}
