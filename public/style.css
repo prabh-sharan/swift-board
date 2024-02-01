@@ -42,6 +42,11 @@ body{
     cursor: pointer;
 }
 
+.eraser{
+    border: none;
+    border-radius: 10px;
+}
+
 
 /* animation- tools cont*/
 .scale-tools{

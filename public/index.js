@@ -48,9 +48,15 @@ pencil.addEventListener("click", (e) => {
 // true->show eraser tool , false-hide eraser tool features
 eraser.addEventListener("click", (e) => {
     eraserFlag = !eraserFlag;
-
-    if (eraserFlag) eraserToolCont.style.display = "flex";
-    else eraserToolCont.style.display = "none";
+    
+    if (eraserFlag) {
+        eraserToolCont.style.display = "flex";
+        eraser.style.border ="2px solid red";
+    }
+    else {
+        eraserToolCont.style.display = "none";
+        eraser.style.border ="none";
+    }    
 })
 
 
